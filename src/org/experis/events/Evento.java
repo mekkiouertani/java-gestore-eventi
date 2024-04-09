@@ -77,6 +77,6 @@ public class Evento {
     @Override
     public String toString() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return data.format(dateFormatter) + " - " + titolo;
+        return "\nL'evento"  +" '" + titolo + "' " + "si terrà il " + data.format(dateFormatter);
     }
 }

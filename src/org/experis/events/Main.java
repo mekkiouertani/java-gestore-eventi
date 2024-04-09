@@ -14,21 +14,7 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
 
-        Evento evento = null;
-
-        System.out.println("\nVuoi creare un Evento o un Concerto?" +
-                            "\n1.Evento"   +
-                            "\n2.Concerto"
-        );
-        int tipoEvento = Integer.parseInt(scan.nextLine());
-        if (tipoEvento == 1) {
-             evento = creaEvento(scan);
-        } else if (tipoEvento == 2) {
-             evento = creaConcerto(scan);
-        } else {
-            System.out.println("Scelta non valida.");
-        }
-
+        Evento evento = selezionaETipoEvento(scan);
         //CREAZIONE MENU
         boolean exit = false;
         while(!exit) {
@@ -67,15 +53,11 @@ public class Main {
                     break;
                     //stampe le informazioni dell'evento
                 case 3:
-                    if(tipoEvento == 1){
-                        System.out.println(evento.toString() + evento.getInfoEvento());
-                        break;
-                    } else if(tipoEvento == 2){
-                        System.out.println(evento.toString());
-                        break;
-                    }
+                    // Utilizza l'operatore ternario per controllare se l'evento è di tipo Concerto
+                    System.out.println(evento.toString() + (evento instanceof Concerto ? "" : evento.getInfoEvento()));
+                    break;
                 case 4:
-                    evento = creaEvento(scan); // Sovrascrivi l'evento esistente con un nuovo evento
+                     evento = selezionaETipoEvento(scan);
                     System.out.println("Nuovo evento creato con successo!");
                     break;
                     //EXIT
@@ -162,4 +144,20 @@ public class Main {
         return new Concerto(eventoBase.getTitolo(), eventoBase.getData(), eventoBase.getnPostiTotali(), ora, prezzo);
     }
 
+    private static Evento selezionaETipoEvento(Scanner scan) {
+        Evento evento = null;
+        System.out.println("\nVuoi creare un Evento o un Concerto?" +
+                "\n1.Evento"   +
+                "\n2.Concerto"
+        );
+        int tipoEvento = Integer.parseInt(scan.nextLine());
+        if (tipoEvento == 1) {
+            evento = creaEvento(scan);
+        } else if (tipoEvento == 2) {
+            evento = creaConcerto(scan);
+        } else {
+            System.out.println("Scelta non valida.");
+        }
+        return evento;
+    }
 }

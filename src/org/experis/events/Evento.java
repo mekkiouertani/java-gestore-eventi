@@ -75,7 +75,7 @@ public class Evento {
 
     public String getInfoEvento() {
         return
-                " Disponibilità di " + nPostiTotali + " posti totali" +
+                "Disponibilità di " + nPostiTotali + " posti totali" +
                 ", di cui " + nPostiPrenotati + " posti prenotati" +
                 " e dispone di " + (nPostiTotali - nPostiPrenotati) + " posti rimanenti.";
     }

@@ -66,7 +66,7 @@ public class Evento {
 
     //DISDICI -> se la data è già passata o non ci sono abbastanza prenotazioni -> ECCEZIONE
     public void disdici(int nPosti){
-        if(data.isBefore(LocalDate.now()) || nPostiPrenotati < nPosti ){
+        if(data.isBefore(LocalDate.now()) || nPostiPrenotati < nPosti || nPosti <= 0 ){
             throw new IllegalArgumentException("Non è stato possibile disdire la prenotazione");
         }
         nPostiPrenotati -= nPosti; // riduce di N i posti prenotati

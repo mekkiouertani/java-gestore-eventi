@@ -73,6 +73,13 @@ public class Evento {
     }
 
 
+    public String getInfoEvento() {
+        return
+                ", ha un totale di " + nPostiTotali + " totali" +
+                ", di cui " + nPostiPrenotati + " posti prenotati" +
+                " e dispone di " + (nPostiTotali - nPostiPrenotati) + " posti rimanenti.";
+    }
+
     //Metodo toString per formattare la data
     @Override
     public String toString() {

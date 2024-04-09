@@ -1,7 +1,11 @@
 package org.experis.events;
 
+import java.math.BigDecimal;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -10,15 +14,28 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
 
-        Evento evento = creaEvento(scan); // Creazione del primo evento tramite la funzione creaEvento
+        Evento evento = null;
+
+        System.out.println("\nVuoi creare un Evento o un Concerto?" +
+                            "\n1.Evento"   +
+                            "\n2.Concerto"
+        );
+        int tipoEvento = Integer.parseInt(scan.nextLine());
+        if (tipoEvento == 1) {
+             evento = creaEvento(scan);
+        } else if (tipoEvento == 2) {
+             evento = creaConcerto(scan);
+        } else {
+            System.out.println("Scelta non valida.");
+        }
 
         //CREAZIONE MENU
         boolean exit = false;
         while(!exit) {
-            System.out.println("\nVuoi prenotare o disdire dei posti?"
+            System.out.println("\n====== TICKET-ONE ======"
                     + "\n1. Prenota"
                     + "\n2. Disdici"
-                    + "\n3. Ottieni info sull'evento corrente"
+                    + "\n3. Ottieni info sull'evento appena creto"
                     + "\n4. Aggiungi un altro evento"
                     + "\n4. Esci"
             );
@@ -50,9 +67,13 @@ public class Main {
                     break;
                     //stampe le informazioni dell'evento
                 case 3:
-                    System.out.println( evento.toString() + evento.getInfoEvento());
-                    break;
-                    //crea un nuovo evento
+                    if(tipoEvento == 1){
+                        System.out.println(evento.toString() + evento.getInfoEvento());
+                        break;
+                    } else if(tipoEvento == 2){
+                        System.out.println(evento.toString());
+                        break;
+                    }
                 case 4:
                     evento = creaEvento(scan); // Sovrascrivi l'evento esistente con un nuovo evento
                     System.out.println("Nuovo evento creato con successo!");
@@ -109,4 +130,36 @@ public class Main {
 
         return new Evento(titolo, data, postiTotali);
     }
+
+    // metodo  per la creazione di un Concerto
+    private static Concerto creaConcerto(Scanner scan) {
+        Evento eventoBase = creaEvento(scan); // Riutilizziamo la logica di creazione dell'Evento
+
+        System.out.println("Inserisci l'ora del concerto (HH:MM): ");
+        LocalTime ora = null;
+        while (ora == null) {
+            try {
+                ora = LocalTime.parse(scan.nextLine(), DateTimeFormatter.ofPattern("HH:mm"));
+            } catch (DateTimeParseException e) {
+                System.out.println("Formato ora non valido. Riprova (HH:MM).");
+            }
+        }
+
+        BigDecimal prezzo = null;
+        while (prezzo == null) {
+            try {
+                System.out.println("Inserisci il prezzo del biglietto: ");
+                prezzo = new BigDecimal(scan.nextLine());
+                if (prezzo.compareTo(BigDecimal.ZERO) <= 0) {
+                    System.out.println("Il prezzo deve essere maggiore di 0.");
+                    prezzo = null; // Imposta prezzo a null per ripetere il ciclo
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Prezzo non valido. Usa un formato numerico corretto. Riprova.");
+            }
+        }
+
+        return new Concerto(eventoBase.getTitolo(), eventoBase.getData(), eventoBase.getnPostiTotali(), ora, prezzo);
+    }
+
 }

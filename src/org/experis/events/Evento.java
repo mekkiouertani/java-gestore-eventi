@@ -58,7 +58,7 @@ public class Evento {
 
     //PRENOTA -> se la data è già passata o non ci sono abbastanza posti disponibili -> ECCEZIONE
     public void prenota(int nPosti){
-        if(data.isBefore(LocalDate.now()) || (nPostiTotali - nPostiPrenotati) < nPosti){
+        if(data.isBefore(LocalDate.now()) || (nPostiTotali - nPostiPrenotati) < nPosti || nPosti <= 0){
             throw new IllegalArgumentException("Non è possibile effettuare la prenotazione");
         }
         nPostiPrenotati += nPosti; // aggiunge N posti prenotati

@@ -21,7 +21,7 @@ public class Main {
             System.out.println("\n====== TICKET-ONE ======"
                     + "\n1. Prenota"
                     + "\n2. Disdici"
-                    + "\n3. Ottieni info sull'evento appena creto"
+                    + "\n3. Ottieni info sull'evento appena creato"
                     + "\n4. Aggiungi un altro evento"
                     + "\n4. Esci"
             );
